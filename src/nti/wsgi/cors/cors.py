@@ -36,6 +36,19 @@ EXPECTED_EXCEPTIONS = (greenlet.GreenletExit, # During restarts this can be gene
 # transaction.interfaces.DoomedTransaction, # This should never get here with the transaction middleware in place
 # pyramid.httpexceptions.HTTPException, # Pyramid is beneath us, so this should never get here either
 
+try:
+	# If we can get ZODB, lets also treat as expected
+	# some of its exceptions. These aren't actually
+	# "expected", in the sense that they are still errors
+	# and need to be dealt with. Instead, they are "expected"
+	# to occur in such numbers as to overwhelm email in a production
+	# site if the site is in a flaky state.
+	# This should be removed once the site is non-flaky
+	from ZODB.POSException import POSError
+	EXPECTED_EXCEPTIONS += (POSError,)
+except ImportError:
+	pass
+
 SIMPLE_METHODS = (b'GET', b'HEAD', b'POST') #: HTTP methods that `CORS`_ defines as "simple"
 
 SIMPLE_HEADERS = (b'ACCEPT',
