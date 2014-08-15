@@ -26,12 +26,17 @@ import greenlet
 #: will raise them, and they will be caught here. Paste will
 #: catch everything else.
 #: .. todo:: We need to move this to its own middleware.
-EXPECTED_EXCEPTIONS = (greenlet.GreenletExit, # During restarts this can be generated
-					   # Most commonly (almost only) seen buffering request bodies. May have some false negatives, though.
-					   # Also seen when a umysqldb connection fails; hard to determine when that can be retryable; this
-					   # is one of those false-negatives
-					   IOError,
-					   )
+EXPECTED_EXCEPTIONS = (
+	# During restarts this can be generated
+	greenlet.GreenletExit,
+	# As can this, more commonly the more we use non-blocking IO
+	SystemExit,
+	# Most commonly (almost only) seen buffering request bodies. May have some false negatives, though.
+	# Also seen when a umysqldb connection fails; hard to determine when that can be retryable; this
+	# is one of those false-negatives
+	IOError,
+)
+
 # Previously this contained:
 # transaction.interfaces.DoomedTransaction, # This should never get here with the transaction middleware in place
 # pyramid.httpexceptions.HTTPException, # Pyramid is beneath us, so this should never get here either
