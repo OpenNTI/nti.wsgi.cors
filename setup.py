@@ -21,25 +21,24 @@ TESTS_REQUIRE = [
 
 
 setup(
-    name = 'nti.wsgi.cors',
-    version = VERSION,
-    author = 'Jason Madden',
-    author_email = 'jason@nextthought.com',
-    description = "Support for CORS in a WSGI environment",
-    long_description = codecs.open('README.rst', encoding='utf-8').read(),
-    license = 'Proprietary', # This is a candidate for Open Source
-    keywords = 'wsgi cors',
+	name = 'nti.wsgi.cors',
+	version = VERSION,
+	author = 'Jason Madden',
+	author_email = 'jason@nextthought.com',
+	description = "Support for CORS in a WSGI environment",
+	long_description = codecs.open('README.rst', encoding='utf-8').read(),
+	license = 'Proprietary', # This is a candidate for Open Source
+	keywords = 'wsgi cors',
 	tests_require=TESTS_REQUIRE,
-    #url = 'https://github.com/NextThought/nti.nose_traceback_info',
-    classifiers = [
-        'Intended Audience :: Developers',
-        'Natural Language :: English',
-        'Operating System :: OS Independent',
+	classifiers = [
+		'Intended Audience :: Developers',
+		'Natural Language :: English',
+		'Operating System :: OS Independent',
 		'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
+		'Programming Language :: Python :: 2.7',
 		'Programming Language :: Python :: 3',
 		'Programming Language :: Python :: 3.3',
-        ],
+	],
 	packages=find_packages('src'),
 	package_dir={'': 'src'},
 	namespace_packages=['nti', 'nti.wsgi'],
