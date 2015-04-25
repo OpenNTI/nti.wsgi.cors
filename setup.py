@@ -1,5 +1,5 @@
-from setuptools import setup, find_packages
 import codecs
+from setuptools import setup, find_packages
 
 VERSION = '0.0.0'
 
@@ -10,15 +10,13 @@ entry_points = {
 	],
 }
 
-
 TESTS_REQUIRE = [
-	'coverage >= 3.7',	# Test coverage
+	'coverage',	# Test coverage
 	'fudge',
-	'nose >= 1.3.0',
-	'pyhamcrest >= 1.7.2',
+	'nose',
+	'pyhamcrest',
 	'nti.testing',
 ]
-
 
 setup(
 	name = 'nti.wsgi.cors',
