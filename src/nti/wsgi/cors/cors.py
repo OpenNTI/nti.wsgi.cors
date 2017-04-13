@@ -82,7 +82,7 @@ def is_simple_request_method(environ):
     Checks to see if the environment represents a simple `CORS`_ request
     """
     return environ['REQUEST_METHOD'] in SIMPLE_METHODS
-assert is_simple_request_method({'REQUEST_METHOD': 'GET'})
+assert is_simple_request_method({'REQUEST_METHOD': b'GET'})
 
 
 def is_simple_header(name, value=None):
@@ -92,15 +92,17 @@ def is_simple_header(name, value=None):
     return name.upper() in SIMPLE_HEADERS \
         or (name.upper() == 'CONTENT-TYPE' 
             and value and value.lower() in SIMPLE_CONTENT_TYPES)
-assert is_simple_header('accept')
-assert is_simple_header('content-type', 'text/plain')
-assert not is_simple_header('content-type', 'application/json')
+assert is_simple_header(b'accept')
+assert is_simple_header('content-type', b'text/plain')
+assert not is_simple_header('content-type', b'application/json')
 
 
 def is_simple_response_header(name):
-    "Checks to see if the name represents a simple `CORS`_ response header"
+    """
+    Checks to see if the name represents a simple `CORS`_ response header
+    """
     return name and name.lower() in SIMPLE_RESPONSE_HEADERS
-assert is_simple_response_header('cache-control')
+assert is_simple_response_header(b'cache-control')
 
 
 #: Access Control Allow Headers
