@@ -21,8 +21,12 @@ from paste.exceptions.errormiddleware import ErrorMiddleware
 from nti.wsgi.cors.cors import cors_filter_factory
 from nti.wsgi.cors.cors import cors_option_filter_factory
 
+from nti.wsgi.cors.tests import SharedConfiguringTestLayer
+
 
 class TestCors(unittest.TestCase):
+
+    layer = SharedConfiguringTestLayer
 
     def test_expected_exceptions_still_have_cors(self):
 

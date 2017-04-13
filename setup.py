@@ -1,8 +1,6 @@
 import codecs
 from setuptools import setup, find_packages
 
-VERSION = '0.0.0'
-
 entry_points = {
     "paste.filter_app_factory": [
         "cors = nti.wsgi.cors:cors_filter_factory",
@@ -10,24 +8,31 @@ entry_points = {
     ],
 }
 
+
 TESTS_REQUIRE = [
-    'coverage',  # Test coverage
     'fudge',
-    'nose',
-    'pyhamcrest',
+    'nose2[coverage_plugin]',
     'nti.testing',
+    'pyhamcrest',
+    'z3c.baseregistry',
+    'zope.testrunner',
 ]
+
+
+def _read(fname):
+    with codecs.open(fname, encoding='utf-8') as f:
+        return f.read()
+
 
 setup(
     name='nti.wsgi.cors',
-    version=VERSION,
+    version=_read('version.txt').strip(),
     author='Jason Madden',
     author_email='jason@nextthought.com',
     description="Support for CORS in a WSGI environment",
-    long_description=codecs.open('README.rst', encoding='utf-8').read(),
-    license='Proprietary',  # This is a candidate for Open Source
+    long_description=_read('README.rst'),
+    license='Apache',
     keywords='wsgi cors',
-    tests_require=TESTS_REQUIRE,
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
@@ -36,16 +41,21 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
     ],
+    zip_safe=True,
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    namespace_packages=['nti', 'nti.wsgi'],
+    include_package_data=True,
+    namespace_packages=['nti'],
+    tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
-        'greenlet'
+        'greenlet',
     ],
     extras_require={
         'test': TESTS_REQUIRE,
     },
-    entry_points=entry_points
+    entry_points=entry_points,
 )
