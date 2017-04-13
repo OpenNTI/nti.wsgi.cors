@@ -13,7 +13,9 @@ TESTS_REQUIRE = [
     'fudge',
     'nose2[coverage_plugin]',
     'nti.testing',
-    'pyhamcrest',
+    'Paste',
+    'PyHamcrest',
+    'WebTest',
     'z3c.baseregistry',
     'zope.testrunner',
 ]
