@@ -37,12 +37,12 @@ class TestCors(unittest.TestCase):
         app = cors_filter_factory(catching_app)
 
         testapp = TestApp(app)
-        res = testapp.get(b'/the_path_doesnt_matter', status=500)
+        res = testapp.get('/the_path_doesnt_matter', status=500)
 
         assert_that(res.normal_body, is_('Failed to handle request bad'))
 
         # Errors set the right response headers
-        res = testapp.get(b'/',
+        res = testapp.get('/',
                           extra_environ={
                               b'HTTP_ORIGIN': b'http://example.org'},
                           status=500)
@@ -57,7 +57,7 @@ class TestCors(unittest.TestCase):
         app = cors_filter_factory(option_app)
 
         testapp = TestApp(app)
-        res = testapp.options(b'/the_path_doesnt_matter',
+        res = testapp.options('/the_path_doesnt_matter',
                               extra_environ={
                                   b'HTTP_ORIGIN': b'http://example.org'},
                               status=200)
@@ -65,7 +65,7 @@ class TestCors(unittest.TestCase):
         assert_that(res.headers, has_key('Access-Control-Allow-Methods'))
 
         # Non-options pass through
-        res = testapp.get(b'/',
+        res = testapp.get('/',
                           extra_environ={
                               b'HTTP_ORIGIN': b'http://example.org'},
                           status=500)
