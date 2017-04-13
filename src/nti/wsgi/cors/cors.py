@@ -143,7 +143,7 @@ class CORSInjector(object):
         except EXPECTED_EXCEPTIONS as e:
             # We don't do anything fancy, just log and continue
             logger.exception("Failed to handle request")
-            result = (b'Failed to handle request ' + str(e),)
+            result = (('Failed to handle request ' + str(e)).encode("utf-8"),)
             start_response(b'500 Internal Server Error', 
                            [(b'Content-Type', b'text/plain')],
                            sys.exc_info())
