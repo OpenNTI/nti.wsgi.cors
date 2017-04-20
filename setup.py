@@ -32,7 +32,8 @@ setup(
     author='Jason Madden',
     author_email='jason@nextthought.com',
     description="Support for CORS in a WSGI environment",
-    long_description=_read('README.rst'),
+    long_description=(_read('README.rst') + '\n\n' + _read('CHANGES.rst')),
+    url="https://github.com/NextThought/nti.wsgi.cors",
     license='Apache',
     keywords='wsgi cors',
     classifiers=[
@@ -42,7 +43,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
     ],
@@ -60,4 +61,5 @@ setup(
         'test': TESTS_REQUIRE,
     },
     entry_points=entry_points,
+    test_suite="nti.wsgi.cors.tests",
 )

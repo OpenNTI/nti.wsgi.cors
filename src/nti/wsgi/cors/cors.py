@@ -49,7 +49,7 @@ try:
     # site if the site is in a flaky state.
     # This should be removed once the site is non-flaky
     from ZODB.POSException import POSError
-    EXPECTED_EXCEPTIONS += (POSError,)
+    EXPECTED_EXCEPTIONS += (POSError,) # pragma: no cover
 except ImportError:
     pass
 
