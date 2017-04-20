@@ -10,13 +10,9 @@ entry_points = {
 
 
 TESTS_REQUIRE = [
-    'fudge',
-    'nose2[coverage_plugin]',
     'nti.testing',
     'Paste',
-    'PyHamcrest',
     'WebTest',
-    'z3c.baseregistry',
     'zope.testrunner',
 ]
 
