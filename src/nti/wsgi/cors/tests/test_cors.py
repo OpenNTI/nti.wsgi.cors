@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function, unicode_literals, absolute_import, division
+from __future__ import print_function, absolute_import, division
 __docformat__ = "restructuredtext en"
 
 # disable: accessing protected members, too many methods
@@ -44,9 +44,9 @@ class TestCors(unittest.TestCase):
         # Errors set the right response headers
         res = testapp.get('/',
                           extra_environ={
-                              b'HTTP_ORIGIN': b'http://example.org'},
+                              'HTTP_ORIGIN': 'http://example.org'},
                           status=500)
-        assert_that(res.headers, has_key(b'Access-Control-Allow-Origin'))
+        assert_that(res.headers, has_key('Access-Control-Allow-Origin'))
 
     def test_option_handler(self):
 
@@ -59,14 +59,14 @@ class TestCors(unittest.TestCase):
         testapp = TestApp(app)
         res = testapp.options('/the_path_doesnt_matter',
                               extra_environ={
-                                  b'HTTP_ORIGIN': b'http://example.org'},
+                                  'HTTP_ORIGIN': 'http://example.org'},
                               status=200)
 
-        assert_that(res.headers, has_key(b'Access-Control-Allow-Methods'))
+        assert_that(res.headers, has_key('Access-Control-Allow-Methods'))
 
         # Non-options pass through
         res = testapp.get('/',
                           extra_environ={
-                              b'HTTP_ORIGIN': b'http://example.org'},
+                              'HTTP_ORIGIN': 'http://example.org'},
                           status=500)
-        assert_that(res.headers, has_key(b'Access-Control-Allow-Origin'))
+        assert_that(res.headers, has_key('Access-Control-Allow-Origin'))

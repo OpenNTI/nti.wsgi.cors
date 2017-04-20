@@ -5,12 +5,10 @@ An outer layer middleware designed to work with `CORS`_. Also integrates with
 Paste to set up expected exceptions. The definitions here were lifted from the
 `CORS`_ spec on 2011-10-18.
 
-.. $Id$
-
 .. _CORS: http://www.w3.org/TR/cors/
 """
 
-from __future__ import print_function, unicode_literals, absolute_import
+from __future__ import print_function, division, absolute_import
 __docformat__ = "restructuredtext en"
 
 logger = __import__('logging').getLogger(__name__)
@@ -56,33 +54,33 @@ except ImportError:
     pass
 
 #: HTTP methods that `CORS`_ defines as "simple"
-SIMPLE_METHODS = (b'GET', b'HEAD', b'POST')
+SIMPLE_METHODS = ('GET', 'HEAD', 'POST')
 
 #: HTTP request headers that `CORS`_ defines as "simple"
-SIMPLE_HEADERS = (b'ACCEPT',
-                  b'ACCEPT-LANGUAGE',
-                  b'CONTENT-LANGUAGE',
-                  b'LAST-EVENT-ID')
+SIMPLE_HEADERS = ('ACCEPT',
+                  'ACCEPT-LANGUAGE',
+                  'CONTENT-LANGUAGE',
+                  'LAST-EVENT-ID')
 
 #: HTTP content types that `CORS`_ defines as "simple"
-SIMPLE_CONTENT_TYPES = (b'application/x-www-form-urlencoded',
-                        b'multipart/form-data',
-                        b'text/plain')
+SIMPLE_CONTENT_TYPES = ('application/x-www-form-urlencoded',
+                        'multipart/form-data',
+                        'text/plain')
 
 #: HTTP response headers that `CORS`_ defines as simple
-SIMPLE_RESPONSE_HEADERS = (b'cache-control',
-                           b'content-language',
-                           b'content-type',
-                           b'expires',
-                           b'last-modified',
-                           b'pragma') 
+SIMPLE_RESPONSE_HEADERS = ('cache-control',
+                           'content-language',
+                           'content-type',
+                           'expires',
+                           'last-modified',
+                           'pragma')
 
 def is_simple_request_method(environ):
     """
     Checks to see if the environment represents a simple `CORS`_ request
     """
     return environ['REQUEST_METHOD'] in SIMPLE_METHODS
-assert is_simple_request_method({'REQUEST_METHOD': b'GET'})
+assert is_simple_request_method({'REQUEST_METHOD': 'GET'})
 
 
 def is_simple_header(name, value=None):
@@ -90,11 +88,11 @@ def is_simple_header(name, value=None):
     Checks to see if the name represents a simple `CORS`_ request header
     """
     return name.upper() in SIMPLE_HEADERS \
-        or (name.upper() == 'CONTENT-TYPE' 
+        or (name.upper() == 'CONTENT-TYPE'
             and value and value.lower() in SIMPLE_CONTENT_TYPES)
-assert is_simple_header(b'accept')
-assert is_simple_header('content-type', b'text/plain')
-assert not is_simple_header('content-type', b'application/json')
+assert is_simple_header('accept')
+assert is_simple_header('content-type', 'text/plain')
+assert not is_simple_header('content-type', 'application/json')
 
 
 def is_simple_response_header(name):
@@ -102,24 +100,24 @@ def is_simple_response_header(name):
     Checks to see if the name represents a simple `CORS`_ response header
     """
     return name and name.lower() in SIMPLE_RESPONSE_HEADERS
-assert is_simple_response_header(b'cache-control')
+assert is_simple_response_header('cache-control')
 
 
 #: Access Control Allow Headers
-ACCES_CONTROL_HEADERS = (b'Pragma',
-                         b'Slug',
-                         b'X-Requested-With',
-                         b'Authorization', 
-                         b'If-Modified-Since',
-                         b'Content-Type',
-                         b'Origin', 
-                         b'Accept', 
-                         b'Cookie', 
-                         b'Accept-Encoding',
-                         b'Cache-Control')
+ACCES_CONTROL_HEADERS = ('Pragma',
+                         'Slug',
+                         'X-Requested-With',
+                         'Authorization',
+                         'If-Modified-Since',
+                         'Content-Type',
+                         'Origin',
+                         'Accept',
+                         'Cookie',
+                         'Accept-Encoding',
+                         'Cache-Control')
 
 class CORSInjector(object):
-    """ 
+    """
     Inject CORS around any application. Should be wrapped around (before) authentication
     and before :class:`~paste.exceptions.errormiddleware.ErrorMiddleware`.
     """
@@ -136,7 +134,7 @@ class CORSInjector(object):
 
         result = None
         environ.setdefault(
-            b'paste.expected_exceptions',
+            'paste.expected_exceptions',
             []).extend(EXPECTED_EXCEPTIONS)
         try:
             result = self._app(environ, start_response)
@@ -144,8 +142,8 @@ class CORSInjector(object):
             # We don't do anything fancy, just log and continue
             logger.exception("Failed to handle request")
             result = (('Failed to handle request ' + str(e)).encode("utf-8"),)
-            start_response(b'500 Internal Server Error', 
-                           [(b'Content-Type', b'text/plain')],
+            start_response('500 Internal Server Error',
+                           [('Content-Type', 'text/plain')],
                            sys.exc_info())
 
         # Everything else we allow to propagate. This might kill the gunicorn worker and cause it to respawn
@@ -186,24 +184,24 @@ class CORSInjector(object):
             # If we fail, we destroy the browser's cache.
             # Since we support credentials, we cannot use the * wildcard
             # origin.
-            theHeaders[b'Access-Control-Allow-Origin'] = environ['HTTP_ORIGIN']
+            theHeaders['Access-Control-Allow-Origin'] = environ['HTTP_ORIGIN']
             # case-sensitive
-            theHeaders[b'Access-Control-Allow-Credentials'] = b"true"
+            theHeaders['Access-Control-Allow-Credentials'] = "true"
             # We would need to add Access-Control-Expose-Headers to
             # expose non-simple response headers to the client, even on simple
             # requests
 
             # All the other values are only needed for preflight requests,
             # which are OPTIONS
-            if environ['REQUEST_METHOD'] == b'OPTIONS':
+            if environ['REQUEST_METHOD'] == 'OPTIONS':
                 theHeaders[
-                    b'Access-Control-Allow-Methods'] = b'POST, GET, PUT, DELETE, OPTIONS'
-                theHeaders[b'Access-Control-Max-Age'] = b"1728000"  # 20 days
+                    'Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE, OPTIONS'
+                theHeaders['Access-Control-Max-Age'] = "1728000"  # 20 days
                 # TODO: Should we inspect the Access-Control-Request-Headers at all?
                 theHeaders[
-                    b'Access-Control-Allow-Headers'] = b', '.join(ACCES_CONTROL_HEADERS)
+                    'Access-Control-Allow-Headers'] = ', '.join(ACCES_CONTROL_HEADERS)
                 theHeaders[
-                    b'Access-Control-Expose-Headers'] = b'Location, Warning'
+                    'Access-Control-Expose-Headers'] = 'Location, Warning'
 
             return self._start_response(status, headers, exc_info)
 
@@ -234,8 +232,8 @@ class CORSOptionHandler(object):
         # TODO: The OPTIONS method should be better implemented. We are
         # swallowing all OPTION requests at this level.
 
-        if environ['REQUEST_METHOD'] == b'OPTIONS':
-            start_response(b'200 OK', [(b'Content-Type', b'text/plain')])
+        if environ['REQUEST_METHOD'] == 'OPTIONS':
+            start_response('200 OK', [('Content-Type', 'text/plain')])
             return (b'',)
 
         return self._app(environ, start_response)
