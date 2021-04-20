@@ -3,10 +3,10 @@
 =========
 
 
-1.0.1 (unreleased)
+1.1.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Add support for python 3.7 and 3.8
 
 
 1.0.0 (2017-04-20)
