@@ -3,7 +3,7 @@
 =========
 
 
-1.1.1 (unreleased)
+1.1.1 (2021-04-20)
 ==================
 
 - Greenlet dependency is only required on CPython. See `Issue 2
