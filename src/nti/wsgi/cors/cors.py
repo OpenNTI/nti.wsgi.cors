@@ -50,7 +50,7 @@ try:
     # This should be removed once the site is non-flaky
     from ZODB.POSException import POSError
     EXPECTED_EXCEPTIONS += (POSError,) # pragma: no cover
-except ImportError:
+except ImportError: # pragma: no cover
     pass
 
 #: HTTP methods that `CORS`_ defines as "simple"

@@ -40,8 +40,10 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
+        'Programming Language :: Python :: Implementation :: PyPy'
     ],
     zip_safe=True,
     packages=find_packages('src'),
@@ -55,6 +57,11 @@ setup(
     ],
     extras_require={
         'test': TESTS_REQUIRE,
+        'docs':  [
+            'Sphinx',
+            'repoze.sphinx.autointerface',
+            'sphinx_rtd_theme',
+        ] + TESTS_REQUIRE,
     },
     entry_points=entry_points,
     test_suite="nti.wsgi.cors.tests",
