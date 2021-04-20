@@ -53,7 +53,7 @@ setup(
     tests_require=TESTS_REQUIRE,
     install_requires=[
         'setuptools',
-        'greenlet',
+        'greenlet ; platform_python_implementation=="CPython"'
     ],
     extras_require={
         'test': TESTS_REQUIRE,
