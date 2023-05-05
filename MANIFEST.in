@@ -10,6 +10,8 @@ include nose2.cfg
 include tox.ini
 include *.txt
 include .nti_cover_package
+include .pylintrc
+include .readthedocs.yml
 recursive-include docs *.py
 recursive-include docs *.rst
 recursive-include docs Makefile
