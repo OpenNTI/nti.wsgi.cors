@@ -23,21 +23,25 @@ import greenlet
 #: and not create error reports from Paste. Instead, Paste
 #: will raise them, and they will be caught here. Paste will
 #: catch everything else.
+#:
 #: .. todo:: We need to move this to its own middleware.
 EXPECTED_EXCEPTIONS = (
     # During restarts this can be generated
     greenlet.GreenletExit,
     # As can this, more commonly the more we use non-blocking IO
     SystemExit,
-    # Most commonly (almost only) seen buffering request bodies. May have some false negatives, though.
-    # Also seen when a umysqldb connection fails; hard to determine when that can be retryable; this
-    # is one of those false-negatives
+    # Most commonly (almost only) seen buffering request bodies. May
+    # have some false negatives, though. Also seen when a umysqldb
+    # connection fails; hard to determine when that can be retryable;
+    # this is one of those false-negatives
     IOError,
 )
 
 # Previously this contained:
-# transaction.interfaces.DoomedTransaction, # This should never get here with the transaction middleware in place
-# pyramid.httpexceptions.HTTPException, # Pyramid is beneath us, so this
+# transaction.interfaces.DoomedTransaction,
+# This should never get here with the transaction middleware in place
+# pyramid.httpexceptions.HTTPException,
+# Pyramid is beneath us, so this
 # should never get here either
 
 try:
@@ -130,7 +134,7 @@ class CORSInjector(object):
     def __call__(self, environ, start_response):
         # Support CORS
         if 'HTTP_ORIGIN' in environ:
-            start_response = self._CORSInjectingStartResponse(environ,start_response)
+            start_response = self._CORSInjectingStartResponse(environ, start_response)
 
         result = None
         environ.setdefault(
@@ -146,8 +150,9 @@ class CORSInjector(object):
                            [('Content-Type', 'text/plain')],
                            sys.exc_info())
 
-        # Everything else we allow to propagate. This might kill the gunicorn worker and cause it to respawn
-        # If so, it will be printed on stderr and captured by supervisor
+        # Everything else we allow to propagate. This might kill the
+        # gunicorn worker and cause it to respawn If so, it will be
+        # printed on stderr and captured by supervisor
 
         return result
 
@@ -206,7 +211,7 @@ class CORSInjector(object):
             return self._start_response(status, headers, exc_info)
 
 
-def cors_filter_factory(app, global_conf=None):
+def cors_filter_factory(app, _global_conf=None):
     """
     Paste filter factory to include :class:`CORSInjector`
     """
@@ -239,7 +244,7 @@ class CORSOptionHandler(object):
         return self._app(environ, start_response)
 
 
-def cors_option_filter_factory(app, global_conf=None):
+def cors_option_filter_factory(app, _global_conf=None):
     """
     Paste filter factory to include :class:`CORSOptionHandler`
     """
